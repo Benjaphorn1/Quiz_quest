@@ -40,7 +40,7 @@ Good Luck!
 
 
 def int_checker(question, low=None, high=None, exit_code=None):
-    """checks users enters an integer more than/equal to 13"""
+    """checks users enters an integer"""
     while True:
         response = input(question).lower()
 
@@ -83,8 +83,8 @@ mode = "regular"
 rounds_won = 0
 rounds_lost = 0
 rounds_played = 0
-game_history = []
-end_game = "no"
+quiz_history = []
+end_quiz = "no"
 
 print()
 print("--Quiz Quest--")
@@ -132,20 +132,27 @@ while True:
         print(f"find 'c' from: {a}² + {b}² = c")
 
         # ask user to answer the question
-        while True:
-            guess_input = input("answer? ")
+        guess = input("answer? ").lower()
 
-            if guess_input == "xxx":
-                end_game = "yes"
-                break
+        # Check if the user wants to quit
+        if guess == "xxx":
+            end_quiz = "yes"
+            break
 
-            try:
-                guess = float(guess_input)
-                break
-            except ValueError:
-                print("Please enter a valid number or 'xxx' to quit")
+        # otherwise, just turn guess into float
+        guess = float(guess)
 
-        if end_game == "yes":
+        # Check if correct
+        if guess == ans2:
+            feedback = "good job! You got it correct."
+            rounds_won += 1
+            result = "won"
+        else:
+            feedback = "Sorry. You got it wrong."
+            rounds_lost += 1
+            result = "lost"
+
+        if end_quiz == "yes":
             break
 
         # Check that it is correct
@@ -163,12 +170,12 @@ while True:
         rounds_played += 1
 
         # Add round to game history
-        game_history.append(f"Round {rounds_played}: {result} - Answer: {ans2}, Your guess: {guess}")
+        quiz_history.append(f"Round {rounds_played}: {result} - Answer: {ans2}, Your guess: {guess}")
 
-        if end_game == "yes":
+        if end_quiz == "yes":
             break
 
-    # if end_game == "yes":
+    # if end_quiz == "yes":
     #     break
 
     print("\nEnd of round")
@@ -189,7 +196,7 @@ while True:
         # Output history if user says yes
         if want_history == "yes":
             print("\n---Game History---")
-            for item in game_history:
+            for item in quiz_history:
                 print(item)
 
     print("\nThanks for playing!")
@@ -205,5 +212,5 @@ while True:
         rounds_won = 0
         rounds_lost = 0
         rounds_played = 0
-        game_history = []
-        end_game = "no"
+        quiz_history = []
+        end_quiz = "no"
